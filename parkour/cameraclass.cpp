@@ -12,11 +12,6 @@ CameraClass::CameraClass()
 }
 
 
-CameraClass::CameraClass(const CameraClass& other)
-{
-}
-
-
 CameraClass::~CameraClass()
 {
 }
