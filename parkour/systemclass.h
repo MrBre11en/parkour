@@ -1,11 +1,19 @@
 #ifndef _SYSTEMCLASS_H_
 #define _SYSTEMCLASS_H_
-// PRE-PROCESSING DIRECTIVES
+
+///////////////////////////////
+// PRE-PROCESSING DIRECTIVES //
+///////////////////////////////
 #define WIN32_LEAN_AND_MEAN
 
+//////////////
 // INCLUDES //
+//////////////
 #include <windows.h>
-// MY CLASS INCLUDES
+
+///////////////////////
+// MY CLASS INCLUDES //
+///////////////////////
 #include "inputclass.h"
 #include "applicationclass.h"
 

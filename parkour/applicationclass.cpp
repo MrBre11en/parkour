@@ -6,8 +6,10 @@ ApplicationClass::ApplicationClass()
 	m_Direct3D = 0;
 	m_Camera = 0;
 	m_Model = 0;
-	m_Shader = 0;
 	m_Light = 0;
+	m_PointLights = 0;
+	m_Bitmap = 0;
+	m_ShaderManager = 0;
 }
 
 ApplicationClass::ApplicationClass(const ApplicationClass& other)
@@ -21,6 +23,7 @@ ApplicationClass::~ApplicationClass()
 
 bool ApplicationClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 {
+	char bitmapFilename[128];
 	char modelFilename[128];
 	char textureFilename[128];
 	bool result;
@@ -49,13 +52,14 @@ bool ApplicationClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 	}
 
 	// Set the initial position of the camera.
-	m_Camera->SetPosition(0.0f, 0.0f, -10.0f);
+	m_Camera->SetPosition(0.0f, 3.0f, -10.0f);
+	m_Camera->SetRotation(15.0f, 0.0f, 0.0f);
 
 	// Create and initialize the model object.
 	m_Model = new ModelClass;
 
 	// Set the file name of the model.
-	strcpy_s(modelFilename, "Data/Models/Cube.txt");
+	strcpy_s(modelFilename, "Data/Models/Plane.txt");
 
 	// Set the name of the texture file that we will be loading.
 	strcpy_s(textureFilename, "Data/Textures/seafloor.tga");
@@ -67,24 +71,55 @@ bool ApplicationClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 		return false;
 	}
 
-	// Create and initialize the texture shader object.
-	m_Shader = new ShaderClass;
-
-	result = m_Shader->Initialize(m_Direct3D->GetDevice(), hwnd);
-	if (!result)
-	{
-		MessageBox(hwnd, L"Could not initialize the texture shader object.", L"Error", MB_OK);
-		return false;
-	}
-
 	// Create and initialize the light object.
 	m_Light = new LightClass;
 
 	m_Light->SetDirection(1.0f, 0.0f, 1.0f);
 	m_Light->SetAmbientColor(0.15f, 0.15f, 0.15f, 1.0f);
-	m_Light->SetDiffuseColor(1.0f, 1.0f, 1.0f, 1.0f);
-	m_Light->SetSpecularColor(1.0f, 1.0f, 1.0f, 1.0f);
+	m_Light->SetDiffuseColor(0.75f, 0.75f, 0.75f, 1.0f);
+	m_Light->SetSpecularColor(0.5f, 0.5f, 0.5f, 1.0f);
 	m_Light->SetSpecularPower(32.0f);
+
+
+	// Set the number of lights we will use.
+	m_numPointLights = 4;
+
+	// Create and initialize the light objects array.
+	m_PointLights = new PointLightClass[m_numPointLights];
+
+	// Manually set the color and position of each light.
+	m_PointLights[0].SetDiffuseColor(1.0f, 0.0f, 0.0f, 1.0f);  // Red
+	m_PointLights[0].SetPosition(-3.0f, 1.0f, 3.0f);
+
+	m_PointLights[1].SetDiffuseColor(0.0f, 1.0f, 0.0f, 1.0f);  // Green
+	m_PointLights[1].SetPosition(3.0f, 1.0f, 0.0f);
+
+	m_PointLights[2].SetDiffuseColor(0.0f, 0.0f, 1.0f, 1.0f);  // Blue
+	m_PointLights[2].SetPosition(-3.0f, 1.0f, -3.0f);
+
+	m_PointLights[3].SetDiffuseColor(1.0f, 0.0f, 1.0f, 1.0f);  // Purpe
+	m_PointLights[3].SetPosition(0.0f, 3.0f, 0.0f);
+
+	// Set the file name of the bitmap file.
+	strcpy_s(bitmapFilename, "Data/Textures/seafloor.tga");
+
+	// Create and initialize the bitmap object.
+	m_Bitmap = new BitmapClass;
+
+	result = m_Bitmap->Initialize(m_Direct3D->GetDevice(), m_Direct3D->GetDeviceContext(), screenWidth, screenHeight, bitmapFilename, 50, 50);
+	if (!result)
+	{
+		return false;
+	}
+
+	// Create and initialize the normal map shader object.
+	m_ShaderManager = new ShaderManagerClass;
+
+	result = m_ShaderManager->Initialize(m_Direct3D->GetDevice(), hwnd);
+	if (!result)
+	{
+		return false;
+	}
 
 	return true;
 }
@@ -92,12 +127,20 @@ bool ApplicationClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 
 void ApplicationClass::Shutdown()
 {
-	// Release the color shader object.
-	if (m_Shader)
+	// Release the bitmap object.
+	if (m_Bitmap)
 	{
-		m_Shader->Shutdown();
-		delete m_Shader;
-		m_Shader = 0;
+		m_Bitmap->Shutdown();
+		delete m_Bitmap;
+		m_Bitmap = 0;
+	}
+
+	// Release the shader manager object.
+	if (m_ShaderManager)
+	{
+		m_ShaderManager->Shutdown();
+		delete m_ShaderManager;
+		m_ShaderManager = 0;
 	}
 
 	// Release the light object.
@@ -106,6 +149,14 @@ void ApplicationClass::Shutdown()
 		delete m_Light;
 		m_Light = 0;
 	}
+
+	// Release the light objects.
+	if (m_PointLights)
+	{
+		delete[] m_PointLights;
+		m_PointLights = 0;
+	}
+
 
 	// Release the model object.
 	if (m_Model)
@@ -140,7 +191,7 @@ bool ApplicationClass::Frame()
 	bool result;
 
 	// Update the rotation variable each frame.
-	rotation -= 0.02f;
+	rotation -= 0.01f;
 	if (rotation < 0.0f)
 	{
 		rotation += 360.0f;
@@ -159,7 +210,9 @@ bool ApplicationClass::Frame()
 
 bool ApplicationClass::Render(float rotation)
 {
-	XMMATRIX worldMatrix, viewMatrix, projectionMatrix, rotateMatrix, translateMatrix, scaleMatrix, srMatrix;
+	XMMATRIX worldMatrix, viewMatrix, projectionMatrix, rotateMatrix, translateMatrix, scaleMatrix, srMatrix, orthoMatrix;
+	XMFLOAT4 pointLightColor[4], pointLightPosition[4];
+	int i;
 	bool result;
 
 
@@ -173,6 +226,27 @@ bool ApplicationClass::Render(float rotation)
 	m_Direct3D->GetWorldMatrix(worldMatrix);
 	m_Camera->GetViewMatrix(viewMatrix);
 	m_Direct3D->GetProjectionMatrix(projectionMatrix);
+	m_Direct3D->GetOrthoMatrix(orthoMatrix);
+
+	// Turn off the Z buffer to begin all 2D rendering.
+	m_Direct3D->TurnZBufferOff();
+
+	// Put the bitmap vertex and index buffers on the graphics pipeline to prepare them for drawing.
+	result = m_Bitmap->Render(m_Direct3D->GetDeviceContext());
+	if (!result)
+	{
+		return false;
+	}
+
+	// Render the bitmap with the UI shader.
+	result = m_ShaderManager->RenderUIShader(m_Direct3D->GetDeviceContext(), m_Bitmap->GetIndexCount(), m_Bitmap->GetTexture());
+	if (!result)
+	{
+		return false;
+	}
+
+	// Turn the Z buffer back on now that all 2D rendering has completed.
+	m_Direct3D->TurnZBufferOn();
 
 	rotateMatrix = XMMatrixRotationY(rotation);  // Build the rotation matrix.
 	scaleMatrix = XMMatrixScaling(1.0f, 1.0f, 1.0f);  // Build the scaling matrix.
@@ -185,10 +259,21 @@ bool ApplicationClass::Render(float rotation)
 	// Put the model vertex and index buffers on the graphics pipeline to prepare them for drawing.
 	m_Model->Render(m_Direct3D->GetDeviceContext());
 
+	// Get the light properties.
+	for (i = 0; i < m_numPointLights; i++)
+	{
+		// Create the diffuse color array from the four light colors.
+		pointLightColor[i] = m_PointLights[i].GetDiffuseColor();
+
+		// Create the light position array from the four light positions.
+		pointLightPosition[i] = m_PointLights[i].GetPosition();
+	}
+
 	// Render the model using shader.
-	result = m_Shader->Render(m_Direct3D->GetDeviceContext(), m_Model->GetIndexCount(), worldMatrix, viewMatrix, projectionMatrix, m_Model->GetTexture(),
+	result = m_ShaderManager->RenderShader(m_Direct3D->GetDeviceContext(), m_Model->GetIndexCount(), worldMatrix, viewMatrix, projectionMatrix, m_Model->GetTexture(),
 		m_Light->GetDirection(), m_Light->GetAmbientColor(), m_Light->GetDiffuseColor(),
-		m_Camera->GetPosition(), m_Light->GetSpecularColor(), m_Light->GetSpecularPower());
+		m_Camera->GetPosition(), m_Light->GetSpecularColor(), m_Light->GetSpecularPower(),
+		pointLightColor, pointLightPosition);
 	if (!result)
 	{
 		return false;
