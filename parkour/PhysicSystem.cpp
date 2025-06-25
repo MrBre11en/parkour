@@ -2,7 +2,6 @@
 // INCLUDES //
 //////////////
 #include<cmath>
-#include <iostream>
 #include "system.h"
 #include "Transform.cpp"
 #include "PhysicBody.cpp"
@@ -11,6 +10,7 @@
 // GLOBALS //
 /////////////
 const float GravityAcceleration = 9.8f;
+
 
 class PhysicSystem: public System
 {
@@ -38,14 +38,14 @@ public:
 	}
 
 
-	void Update(vector<Entity>& entities, float deltaTime) override
+	void Update(vector<Entity*>& entities, float deltaTime) override
 	{
 		size_t size = entities.size();
 		for (int i = 0; i < size; i++)
 		{
-			Entity entity = entities[i];
-			PhysicBody* physicBody = entity.GetComponent<PhysicBody>();
-			Transform* transform = entity.GetComponent<Transform>();
+			Entity* entity = entities[i];
+			PhysicBody* physicBody = entity->GetComponent<PhysicBody>();
+			Transform* transform = entity->GetComponent<Transform>();
 			if (physicBody != nullptr && transform != nullptr)
 			{
 
@@ -55,8 +55,6 @@ public:
 				}
 
 				transform->position += physicBody->velocity * deltaTime;
-				
-				std::cout << transform->position << std::endl;
 			}
 		}
 	}

@@ -164,6 +164,7 @@
     <ClCompile Include="LevelManagerClass.cpp" />
     <ClCompile Include="lightclass.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="modelclass.cpp" />
     <ClCompile Include="parkour.cpp" />
     <ClCompile Include="PhysicBody.cpp" />

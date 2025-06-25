@@ -13,6 +13,21 @@
 #include "entity.h"
 #include "system.h"
 
+#include "d3dclass.h"
+#include "cameraclass.h"
+#include "modelclass.h"
+#include "lightclass.h"
+#include "pointlightclass.h"
+#include "bitmapclass.h"
+#include "shadermanagerclass.h"
+
+/////////////
+// GLOBALS //
+/////////////
+const float PHYSICS_DT = 1.0f / 60.0f; // 60 FPS
+const float RENDER_DT = 1.0f / 144.0f; // 144 FPS
+
+
 ////////////////////////////////////////////////////////////////////////////////
 // Class name: World
 ////////////////////////////////////////////////////////////////////////////////
@@ -24,12 +39,23 @@ public:
 	~World();
 
 	template <typename T>
-	T* AddSystem()
+	T* AddPhysicSystem()
 	{
 		auto system = make_unique<T>();
 		T* raw_ptr = system.get();
 		system->Initialize();
-		systems.push_back(move(system));
+		physicSystems.push_back(move(system));
+
+		return raw_ptr;
+	}
+
+	template <typename T>
+	T* AddRenderSystem()
+	{
+		auto system = make_unique<T>();
+		T* raw_ptr = system.get();
+		system->Initialize();
+		renderSystems.push_back(move(system));
 
 		return raw_ptr;
 	}
@@ -37,10 +63,21 @@ public:
 	Entity* CreateEntity();
 
 	void Shutdown();
-	void Update();
+	void UpdatePhysic();
+	void UpdateRender();
 private:
-	vector<Entity> entities;
-	vector<unique_ptr<System>> systems;
+	vector<Entity*> entities;
+	vector<unique_ptr<System>> physicSystems;
+	vector<unique_ptr<System>> renderSystems;
+
+	D3DClass* m_Direct3D;
+	CameraClass* m_Camera;
+	ModelClass* m_Model;
+	LightClass* m_Light;
+	PointLightClass* m_PointLights;
+	int m_numPointLights;
+	BitmapClass* m_Bitmap;
+	ShaderManagerClass* m_ShaderManager;
 };
 
 #endif

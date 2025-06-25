@@ -30,7 +30,7 @@ void LevelManagerClass::Initialize()
 	plane->AddComponent<PlaneCollider>();
 
 
-	m_World->AddSystem<PhysicSystem>();
+	m_World->AddPhysicSystem<PhysicSystem>();
 }
 
 
@@ -46,5 +46,6 @@ void LevelManagerClass::Shutdown()
 
 void LevelManagerClass::Frame()
 {
-	m_World->Update();
+	m_World->UpdatePhysic();
+	m_World->UpdateRender();
 }

@@ -1,5 +1,6 @@
 ﻿#include "systemclass.h"
 
+
 SystemClass::SystemClass()
 {
 	m_Input = 0;
