@@ -133,10 +133,12 @@ bool LevelManagerClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 	transform->position = vec3(0.0f, 5.0f, 0.0f);
 	cube->AddComponent<PhysicBody>();
 	cube->AddComponent<SphereCollider>();
+	cube->AddComponent<Mesh>();
 
 	Entity* plane = m_World->CreateEntity();
 	plane->AddComponent<Transform>();
 	plane->AddComponent<PlaneCollider>();
+	plane->AddComponent<Mesh>();
 
 
 	m_World->AddPhysicSystem<PhysicSystem>();

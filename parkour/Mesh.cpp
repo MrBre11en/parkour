@@ -6,9 +6,7 @@
 
 struct Mesh : Component
 {
-	float mass = 1.0f;
-	vec3 velocity = vec3();
-	bool useGravity = true;
+	
 };
 
 #endif

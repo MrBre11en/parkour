@@ -24,6 +24,7 @@
 #include "PhysicBody.cpp"
 #include "SphereCollider.cpp"
 #include "PlaneCollider.cpp"
+#include "Mesh.cpp"
 
 #include "PhysicSystem.cpp"
 
