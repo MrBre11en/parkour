@@ -15,7 +15,6 @@
 // MY CLASS INCLUDES //
 ///////////////////////
 #include "inputclass.h"
-#include "applicationclass.h"
 #include "LevelManagerClass.h"
 
 
@@ -43,7 +42,6 @@ private:
 	HWND m_hwnd;
 
 	InputClass* m_Input;
-	ApplicationClass* m_Application;
 	LevelManagerClass* m_LevelManager;
 };
 
