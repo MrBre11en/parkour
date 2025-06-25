@@ -1,11 +1,15 @@
-////////////////////////////////////////////////////////////////////////////////
-// Filename: Transform.cpp
-////////////////////////////////////////////////////////////////////////////////
-#include "Transform.h"
+﻿#ifndef _TRANSFORM_C_
+#define _TRANSFORM_C_
 
-Transform::Transform()
+#include "component.h"
+#include "vec3.cpp"
+
+
+struct Transform : Component
 {
-	position = vec3(0.0f, 0.0f, 0.0f);
-	rotation = vec3(0.0f, 0.0f, 0.0f);
-	scale = vec3(1.0f, 1.0f, 1.0f);
-}
+	vec3 position = vec3();
+	vec3 rotation = vec3();
+	vec3 scale = vec3();
+};
+
+#endif

@@ -1,11 +1,14 @@
-////////////////////////////////////////////////////////////////////////////////
-// Filename: PhysicBody.cpp
-////////////////////////////////////////////////////////////////////////////////
-#include "PhysicBody.h"
+﻿#ifndef _PHYSICBODY_C_
+#define _PHYSICBODY_C_
 
-PhysicBody::PhysicBody()
+#include "component.h"
+#include "vec3.cpp"
+
+struct PhysicBody : Component
 {
-	mass = 1.0f;
-	velocity = XMFLOAT3(0.0f, 0.0f, 0.0f);
-	useGravity = true;
-}
+	float mass = 1.0f;
+	vec3 velocity = vec3();
+	bool useGravity = true;
+};
+
+#endif

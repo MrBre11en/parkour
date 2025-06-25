@@ -1,4 +1,4 @@
-#ifndef _SYSTEMCLASS_H_
+﻿#ifndef _SYSTEMCLASS_H_
 #define _SYSTEMCLASS_H_
 
 ///////////////////////////////
@@ -16,6 +16,7 @@
 ///////////////////////
 #include "inputclass.h"
 #include "applicationclass.h"
+#include "LevelManagerClass.h"
 
 class SystemClass
 {
@@ -42,6 +43,7 @@ private:
 
 	InputClass* m_Input;
 	ApplicationClass* m_Application;
+	LevelManagerClass* m_LevelManager;
 };
 
 

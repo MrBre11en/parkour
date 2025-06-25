@@ -1,4 +1,4 @@
-#include "applicationclass.h"
+﻿#include "applicationclass.h"
 
 
 ApplicationClass::ApplicationClass()
@@ -59,7 +59,7 @@ bool ApplicationClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 	m_Model = new ModelClass;
 
 	// Set the file name of the model.
-	strcpy_s(modelFilename, "Data/Models/Plane.txt");
+	strcpy_s(modelFilename, "Data/Models/Cube.txt");
 
 	// Set the name of the texture file that we will be loading.
 	strcpy_s(textureFilename, "Data/Textures/seafloor.tga");

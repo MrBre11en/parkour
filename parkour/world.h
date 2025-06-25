@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////////////////////
+﻿////////////////////////////////////////////////////////////////////////////////
 // Filename: world.h
 ////////////////////////////////////////////////////////////////////////////////
 #ifndef _WORLD_H_
@@ -8,10 +8,10 @@
 // INCLUDES //
 //////////////
 #include <vector>
+#include <memory>
 #include "component.h"
 #include "entity.h"
 #include "system.h"
-using namespace std;
 
 ////////////////////////////////////////////////////////////////////////////////
 // Class name: World
@@ -20,13 +20,27 @@ class World
 {
 public:
 	World();
+	World(const World&);
+	~World();
+
+	template <typename T>
+	T* AddSystem()
+	{
+		auto system = make_unique<T>();
+		T* raw_ptr = system.get();
+		system->Initialize();
+		systems.push_back(move(system));
+
+		return raw_ptr;
+	}
 
 	Entity* CreateEntity();
-	void AddSystem(System&);
+
+	void Shutdown();
 	void Update();
 private:
 	vector<Entity> entities;
-	vector<System> systems;
+	vector<unique_ptr<System>> systems;
 };
 
 #endif

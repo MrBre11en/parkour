@@ -1,9 +1,11 @@
-////////////////////////////////////////////////////////////////////////////////
-// Filename: SphereCollider.cpp
-////////////////////////////////////////////////////////////////////////////////
-#include "SphereCollider.h"
+﻿#ifndef _SPHERECOLLIDER_C_
+#define _SPHERECOLLIDER_C_
 
-SphereCollider::SphereCollider()
+#include "component.h"
+
+struct SphereCollider : Component
 {
-	radius = 1.0f;
-}
+	float radius = 1.0f;
+};
+
+#endif

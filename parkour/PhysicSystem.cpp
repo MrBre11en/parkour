@@ -1,30 +1,66 @@
-////////////////////////////////////////////////////////////////////////////////
-// Filename: PhysicSystem.cpp
-////////////////////////////////////////////////////////////////////////////////
-#include "PhysicSystem.h"
+﻿//////////////
+// INCLUDES //
+//////////////
+#include<cmath>
+#include <iostream>
+#include "system.h"
+#include "Transform.cpp"
+#include "PhysicBody.cpp"
 
-PhysicSystem::PhysicSystem()
+/////////////
+// GLOBALS //
+/////////////
+const float GravityAcceleration = 9.8f;
+
+class PhysicSystem: public System
 {
-}
-
-
-void PhysicSystem::Update(vector<Entity>& entities, float deltaTime)
-{
-	size_t size = entities.size();
-	for (int i = 0; i < size; i++)
+public:
+	PhysicSystem()
 	{
-		Entity entity = entities[i];
-		PhysicBody* physicBody = entity.GetComponent<PhysicBody>();
-		Transform* transform = entity.GetComponent<Transform>();
-		if (physicBody != nullptr && transform != nullptr)
+		gravityVector = 0;
+	}
+
+
+
+	void Initialize() override
+	{
+		gravityVector = new vec3(0.0f, -GravityAcceleration, 0.0f);
+	}
+
+
+	void Shutdown() override
+	{
+		if (gravityVector)
 		{
-
-			if (physicBody->useGravity)
-			{
-
-			}
-
-			transform->position += physicBody->velocity * deltaTime;
+			delete gravityVector;
+			gravityVector = 0;
 		}
 	}
-}
+
+
+	void Update(vector<Entity>& entities, float deltaTime) override
+	{
+		size_t size = entities.size();
+		for (int i = 0; i < size; i++)
+		{
+			Entity entity = entities[i];
+			PhysicBody* physicBody = entity.GetComponent<PhysicBody>();
+			Transform* transform = entity.GetComponent<Transform>();
+			if (physicBody != nullptr && transform != nullptr)
+			{
+
+				if (physicBody->useGravity)
+				{
+					physicBody->velocity += *gravityVector * deltaTime;
+				}
+
+				transform->position += physicBody->velocity * deltaTime;
+				
+				std::cout << transform->position << std::endl;
+			}
+		}
+	}
+
+private:
+	vec3* gravityVector;
+};

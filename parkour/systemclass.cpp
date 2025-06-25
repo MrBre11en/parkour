@@ -1,9 +1,10 @@
-#include "systemclass.h"
+﻿#include "systemclass.h"
 
 SystemClass::SystemClass()
 {
 	m_Input = 0;
 	m_Application = 0;
+	m_LevelManager = 0;
 }
 
 SystemClass::SystemClass(const SystemClass& other)
@@ -30,23 +31,33 @@ bool SystemClass::Initialize()
 
 	// Create and initialize the input object.  This object will be used to handle reading the keyboard input from the user.
 	m_Input = new InputClass;
-
 	m_Input->Initialize();
+
+	m_LevelManager = new LevelManagerClass;
+	m_LevelManager->Initialize();
 
 	// Create and initialize the application class object.  This object will handle rendering all the graphics for this application.
 	m_Application = new ApplicationClass;
-
 	result = m_Application->Initialize(screenWidth, screenHeight, m_hwnd);
 	if (!result)
 	{
 		return false;
 	}
 
+
 	return true;
 }
 
 void SystemClass::Shutdown()
 {
+	// Release the level builder class object.
+	if (m_LevelManager)
+	{
+		m_LevelManager->Shutdown();
+		delete m_LevelManager;
+		m_LevelManager = 0;
+	}
+
 	// Release the application class object.
 	if (m_Application)
 	{
@@ -117,6 +128,8 @@ bool SystemClass::Frame()
 	{
 		return false;
 	}
+
+	m_LevelManager->Frame();
 
 	// Do the frame processing for the application class object.
 	result = m_Application->Frame();

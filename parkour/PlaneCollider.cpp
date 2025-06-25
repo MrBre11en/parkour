@@ -1,9 +1,12 @@
-////////////////////////////////////////////////////////////////////////////////
-// Filename: PlaneCollider.cpp
-////////////////////////////////////////////////////////////////////////////////
-#include "PlaneCollider.h"
+﻿#ifndef _PLANECOLLIDER_C_
+#define _PLANECOLLIDER_C_
 
-PlaneCollider::PlaneCollider()
+#include "component.h"
+#include "vec3.cpp"
+
+struct PlaneCollider : Component
 {
-	normal = XMFLOAT3(0.0f, 1.0f, 0.0f);
-}
+	vec3 normal = vec3();
+};
+
+#endif
