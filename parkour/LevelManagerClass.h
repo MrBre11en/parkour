@@ -27,6 +27,7 @@
 #include "Mesh.cpp"
 
 #include "PhysicSystem.cpp"
+#include "MeshRenderSystem.cpp"
 
 /////////////
 // GLOBALS //

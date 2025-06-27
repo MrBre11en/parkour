@@ -37,18 +37,6 @@
     <Filter Include="Shaders\Screen">
       <UniqueIdentifier>{65182261-f8cc-4bd0-974f-4c96e97a43b4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\ECS">
-      <UniqueIdentifier>{d5b41740-b005-4d1f-a2ca-acee68d77c92}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\ECS\EcsBase">
-      <UniqueIdentifier>{2baed449-0c4b-4cd9-9748-e2f86b0424a2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\ECS\Physic">
-      <UniqueIdentifier>{f311c50b-4748-4890-9bb7-ab233e3c0604}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\ECS\Physic\Collision">
-      <UniqueIdentifier>{61293660-953a-4745-9dc6-f4936c5a3e11}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\ECS">
       <UniqueIdentifier>{8a8451ae-23a2-4385-b65b-1a2c099b3e6d}</UniqueIdentifier>
     </Filter>
@@ -60,6 +48,12 @@
     </Filter>
     <Filter Include="Source Files\Structures">
       <UniqueIdentifier>{45a7ed5a-a730-4236-9f2c-1aa054dd1e65}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ECS\Render">
+      <UniqueIdentifier>{a207dcf0-d2ea-483a-8359-374c8b3d535b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\EcsBase">
+      <UniqueIdentifier>{2baed449-0c4b-4cd9-9748-e2f86b0424a2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -82,9 +76,6 @@
       <Filter>Header Files\System</Filter>
     </ClInclude>
     <ClInclude Include="systemclass.h">
-      <Filter>Header Files\System</Filter>
-    </ClInclude>
-    <ClInclude Include="applicationclass.h">
       <Filter>Header Files\System</Filter>
     </ClInclude>
     <ClInclude Include="Resource.h">
@@ -114,32 +105,20 @@
     <ClInclude Include="shadermanagerclass.h">
       <Filter>Header Files\Render</Filter>
     </ClInclude>
-    <ClInclude Include="SphereCollider.h">
-      <Filter>Header Files\ECS\Physic\Collision</Filter>
-    </ClInclude>
     <ClInclude Include="component.h">
-      <Filter>Header Files\ECS\EcsBase</Filter>
-    </ClInclude>
-    <ClInclude Include="PlaneCollider.h">
-      <Filter>Header Files\ECS\Physic\Collision</Filter>
-    </ClInclude>
-    <ClInclude Include="PhysicBody.h">
-      <Filter>Header Files\ECS\Physic</Filter>
-    </ClInclude>
-    <ClInclude Include="Transform.h">
-      <Filter>Header Files\ECS</Filter>
+      <Filter>Header Files\EcsBase</Filter>
     </ClInclude>
     <ClInclude Include="entity.h">
-      <Filter>Header Files\ECS\EcsBase</Filter>
+      <Filter>Header Files\EcsBase</Filter>
     </ClInclude>
     <ClInclude Include="system.h">
-      <Filter>Header Files\ECS\EcsBase</Filter>
+      <Filter>Header Files\EcsBase</Filter>
     </ClInclude>
     <ClInclude Include="world.h">
-      <Filter>Header Files\ECS\EcsBase</Filter>
+      <Filter>Header Files\EcsBase</Filter>
     </ClInclude>
-    <ClInclude Include="PhysicSystem.h">
-      <Filter>Header Files\ECS\Physic</Filter>
+    <ClInclude Include="LevelManagerClass.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -157,9 +136,6 @@
     </ClCompile>
     <ClCompile Include="textureclass.cpp">
       <Filter>Source Files\Render</Filter>
-    </ClCompile>
-    <ClCompile Include="applicationclass.cpp">
-      <Filter>Source Files\System</Filter>
     </ClCompile>
     <ClCompile Include="d3dclass.cpp">
       <Filter>Source Files\System</Filter>
@@ -211,6 +187,15 @@
     </ClCompile>
     <ClCompile Include="vec3.cpp">
       <Filter>Source Files\Structures</Filter>
+    </ClCompile>
+    <ClCompile Include="LevelManagerClass.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Mesh.cpp">
+      <Filter>Source Files\ECS\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshRenderSystem.cpp">
+      <Filter>Source Files\ECS\Render</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

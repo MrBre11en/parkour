@@ -22,15 +22,15 @@ struct vec3
 		return { x + other.x, y + other.y, z + other.z };
 	}
 
-	vec3 operator-(const vec3& other) const {
-		return { x - other.x, y - other.y, z - other.z };
-	}
-
 	inline vec3 operator+=(const vec3& other) {
 		x += other.x;
 		y += other.y;
 		z += other.z;
 		return *this;
+	}
+
+	vec3 operator-(const vec3& other) const {
+		return { x - other.x, y - other.y, z - other.z };
 	}
 
 	inline vec3 operator-=(const vec3& other) {
@@ -48,12 +48,40 @@ struct vec3
 		return { x * other.x, y * other.y, z * other.z };
 	}
 
+	inline vec3 operator*=(float num) {
+		x *= num;
+		y *= num;
+		z *= num;
+		return *this;
+	}
+
+	inline vec3 operator*=(const vec3& other) {
+		x *= other.x;
+		y *= other.y;
+		z *= other.z;
+		return *this;
+	}
+
 	vec3 operator/(float num) const {
 		return { x / num, y / num, z / num };
 	}
 
 	vec3 operator/(const vec3& other) const {
 		return { x / other.x, y / other.y, z / other.z };
+	}
+
+	inline vec3 operator/=(float num) {
+		x /= num;
+		y /= num;
+		z /= num;
+		return *this;
+	}
+
+	inline vec3 operator/=(const vec3& other) {
+		x /= other.x;
+		y /= other.y;
+		z /= other.z;
+		return *this;
 	}
 
 

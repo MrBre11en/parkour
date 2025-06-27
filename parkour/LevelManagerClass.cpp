@@ -142,6 +142,7 @@ bool LevelManagerClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 
 
 	m_World->AddPhysicSystem<PhysicSystem>();
+	m_World->AddRenderSystem<MeshRenderSystem>();
 
 	//////////////////////////////////////////////////////////////////////////////////////////////
 	// WORLD CREATING //

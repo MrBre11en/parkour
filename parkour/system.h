@@ -19,9 +19,9 @@ using namespace std;
 class System
 {
 public:
-	virtual void Initialize() = 0;
-	virtual void Shutdown() = 0;
-	virtual void Update(vector<Entity*>&, float deltaTime) = 0;
+	virtual bool Initialize() {}
+	virtual void Shutdown() {}
+	virtual bool Update(vector<Entity*>&, float deltaTime) {}
 };
 
 #endif

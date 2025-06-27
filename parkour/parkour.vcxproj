@@ -163,6 +163,7 @@
     <ClCompile Include="lightclass.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mesh.cpp" />
+    <ClCompile Include="MeshRenderSystem.cpp" />
     <ClCompile Include="modelclass.cpp" />
     <ClCompile Include="parkour.cpp" />
     <ClCompile Include="PhysicBody.cpp" />

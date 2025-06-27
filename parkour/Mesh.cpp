@@ -2,11 +2,11 @@
 #define _MESH_C_
 
 #include "component.h"
-#include "vec3.cpp"
+#include "modelclass.h"
 
 struct Mesh : Component
 {
-	
+	ModelClass model = ModelClass();
 };
 
 #endif
