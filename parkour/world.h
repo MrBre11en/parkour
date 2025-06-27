@@ -13,6 +13,13 @@
 #include "entity.h"
 #include "system.h"
 
+#include "d3dclass.h"
+#include "cameraclass.h"
+#include "lightclass.h"
+#include "pointlightclass.h"
+#include "bitmapclass.h"
+#include "shadermanagerclass.h"
+
 /////////////
 // GLOBALS //
 /////////////

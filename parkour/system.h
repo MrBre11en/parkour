@@ -10,6 +10,7 @@
 #include <vector>
 #include "component.h"
 #include "entity.h"
+#include "world.h"
 using namespace std;
 
 
@@ -19,9 +20,9 @@ using namespace std;
 class System
 {
 public:
-	virtual bool Initialize() {}
+	virtual bool Initialize() { return true; }
 	virtual void Shutdown() {}
-	virtual bool Update(vector<Entity*>&, float deltaTime) {}
+	virtual bool Update(vector<Entity*>& entities, float deltaTime) { return true; }
 };
 
 #endif

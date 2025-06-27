@@ -5,12 +5,6 @@
 // INCLUDES //
 //////////////
 #include<cmath>
-#include "d3dclass.h"
-#include "cameraclass.h"
-#include "shadermanagerclass.h"
-#include "lightclass.h"
-#include "pointlightclass.h"
-
 #include "system.h"
 #include "Transform.cpp"
 #include "Mesh.cpp"
@@ -20,50 +14,6 @@ class MeshRenderSystem : public System
 public:
 	MeshRenderSystem()
 	{
-		m_Direct3D = 0;
-		m_Camera = 0;
-		m_ShaderManager = 0;
-		m_Light = 0;
-		m_PointLights = 0;
-	}
-
-
-	bool Initialize() override
-	{
-		
-
-		return true;
-	}
-
-
-	void Shutdown() override
-	{
-		if (m_ShaderManager)
-		{
-			m_ShaderManager = 0;
-		}
-
-		if (m_Light)
-		{
-			m_Light = 0;
-		}
-
-		if (m_PointLights)
-		{
-			m_PointLights = 0;
-		}
-
-		if (m_Camera)
-		{
-			m_Camera = 0;
-		}
-
-		if (m_Direct3D)
-		{
-			m_Direct3D = 0;
-		}
-
-		return;
 	}
 
 
@@ -154,14 +104,6 @@ public:
 
 		return true;
 	}
-
-private:
-	D3DClass* m_Direct3D;
-	CameraClass* m_Camera;
-	ShaderManagerClass* m_ShaderManager;
-	LightClass* m_Light;
-	PointLightClass* m_PointLights;
-	int m_numPointLights;
 };
 
 #endif
