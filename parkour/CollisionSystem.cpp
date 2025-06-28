@@ -9,6 +9,9 @@
 #include "Transform.cpp"
 #include "PhysicBody.cpp"
 
+#include "SphereCollider.cpp"
+#include "PlaneCollider.cpp"
+
 
 class CollisionSystem : public System
 {
@@ -34,12 +37,39 @@ public:
 		size_t size = entities.size();
 		for (int i = 0; i < size; i++)
 		{
-			Entity* entity = entities[i];
-			Transform* transform = entity->GetComponent<Transform>();
-			PhysicBody* physicBody = entity->GetComponent<PhysicBody>();
-			if (transform != nullptr && physicBody != nullptr)
+			Entity* entity1 = entities[i];
+			Transform* transform1 = entity1->GetComponent<Transform>();
+			SphereCollider* sphereCollider = entity1->GetComponent<SphereCollider>();
+			if (transform1 != nullptr && sphereCollider != nullptr)
 			{
 				
+				size_t size = entities.size();
+				for (int i = 0; i < size; i++)
+				{
+					Entity* entity2 = entities[i];
+					Transform* transform2 = entity2->GetComponent<Transform>();
+					PlaneCollider* planeCollider = entity2->GetComponent<PlaneCollider>();
+					if (transform2 != nullptr && planeCollider != nullptr)
+					{
+						float distance = (transform1->position - transform2->position).dot(planeCollider->normal);
+						if (distance < sphereCollider->radius)
+						{
+							PhysicBody* physicBody1 = entity1->GetComponent<PhysicBody>();
+							if (physicBody1 != nullptr)
+							{
+								physicBody1->velocity -= physicBody1->velocity * planeCollider->normal / pow(planeCollider->normal.magnitude(), 2) * planeCollider->normal;
+								transform1->position += planeCollider->normal * (sphereCollider->radius - distance);
+							}
+
+							/*PhysicBody* physicBody2 = entity2->GetComponent<PhysicBody>();
+							if (physicBody2 != nullptr)
+							{
+								transform2->position -= planeCollider->normal * (sphereCollider->radius - distance);
+							}*/
+						}
+					}
+				}
+
 			}
 		}
 

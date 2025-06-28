@@ -70,31 +70,6 @@ public:
 		return raw_ptr;
 	}
 
-	template<typename... TComponents>
-	vector<tuple<Entity*, TComponents&...>> GetEntitiesWith() {
-		constexpr auto key = GetComponentSetKey<TComponents...>();
-
-		if (componentToEntities.contains(key)) {
-			return GetCachedEntities<TComponents...>(key);
-		}
-
-		// Первый раз - фильтруем и кешируем
-		vector<tuple<Entity*, TComponents&...>> result;
-		for (auto& entity : entities) {
-			if ((entity.template HasComponent<TComponents>() && ...)) {
-				result.emplace_back(
-					&entity,
-					entity.template GetComponent<TComponents>()...
-				);
-			}
-		}
-		componentToEntities[key] = result | views::transform([](auto& tuple) {
-			return get<0>(tuple);
-		}) | ranges::to<vector>();
-
-		return result;
-	}
-
 	Entity* CreateEntity();
 
 	bool Initialize(D3DClass*, BitmapClass*, ShaderManagerClass*);
@@ -103,32 +78,7 @@ public:
 	bool UpdateRender();
 
 private:
-	template<typename... TComponents>
-	constexpr size_t GetComponentSetKey() {
-		array<size_t, sizeof...(TComponents)> types = { typeid(TComponents).hash_code()... };
-		sort(types.begin(), types.end());
-		size_t key = 0;
-		for (auto t : types) {
-			key ^= t + 0x9e3779b9 + (key << 6) + (key >> 2);
-		}
-		return key;
-	}
-
-	template<typename... TComponents>
-	auto GetCachedEntities(std::size_t key) {
-		std::vector<std::tuple<Entity*, TComponents&...>> result;
-		for (Entity* entity : componentToEntities[key]) {
-			result.emplace_back(
-				entity,
-				entity->template GetComponent<TComponents>()...
-			);
-		}
-		return result;
-	}
-
-private:
 	vector<Entity*> entities;
-	unordered_map<size_t, vector<Entity*>> componentToEntities;
 	vector<unique_ptr<System>> physicSystems;
 	vector<unique_ptr<System>> renderSystems;
 };

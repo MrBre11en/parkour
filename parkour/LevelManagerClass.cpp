@@ -20,9 +20,6 @@ LevelManagerClass::~LevelManagerClass()
 
 bool LevelManagerClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 {
-	Mesh* mesh;
-	Transform* transform;
-
 	char bitmapFilename[128];
 	char modelFilename[128];
 	char textureFilename[128];
@@ -66,7 +63,7 @@ bool LevelManagerClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////////
-	// WORLD CREATING //
+	// WORLD CREATING START //
 	//////////////////////////////////////////////////////////////////////////////////////////////
 
 	m_World = new World;
@@ -76,15 +73,76 @@ bool LevelManagerClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 		return false;
 	}
 
+	Mesh* mesh;
+	Transform* transform;
+	PhysicBody* physicBody;
+	SphereCollider* sphereCollider;
+
 	Entity* cube = m_World->CreateEntity();
 	transform = cube->AddComponent<Transform>();
 	transform->position = vec3(0.0f, 3.0f, 0.0f);
-	cube->AddComponent<PhysicBody>();
+	physicBody = cube->AddComponent<PhysicBody>();
+	physicBody->velocity = vec3(1.0f, 3.0f, 2.0f);
+	//physicBody->angVelocity = vec3(5.0f, 10.0f, 3.0f);
 	cube->AddComponent<SphereCollider>();
 	mesh = cube->AddComponent<Mesh>();
 
 	strcpy_s(modelFilename, "Data/Models/Cube.txt");
 	strcpy_s(textureFilename, "Data/Textures/seafloor.tga");
+
+	result = mesh->model.Initialize(m_Direct3D->GetDevice(), m_Direct3D->GetDeviceContext(), modelFilename, textureFilename);
+	if (!result)
+	{
+		MessageBox(hwnd, L"Could not initialize the model object.", L"Error", MB_OK);
+		return false;
+	}
+
+	Entity* cube1 = m_World->CreateEntity();
+	transform = cube1->AddComponent<Transform>();
+	transform->position = vec3(0.0f, 2.0f, 0.0f);
+	transform->scale = vec3(0.5f, 0.5f, 0.5f);
+	physicBody = cube1->AddComponent<PhysicBody>();
+	physicBody->velocity = vec3(-1.0f, 2.0f, 1.0f);
+	//physicBody->angVelocity = vec3(5.0f, 10.0f, 3.0f);
+	sphereCollider = cube1->AddComponent<SphereCollider>();
+	sphereCollider->radius = 0.5f;
+	mesh = cube1->AddComponent<Mesh>();
+
+	result = mesh->model.Initialize(m_Direct3D->GetDevice(), m_Direct3D->GetDeviceContext(), modelFilename, textureFilename);
+	if (!result)
+	{
+		MessageBox(hwnd, L"Could not initialize the model object.", L"Error", MB_OK);
+		return false;
+	}
+
+	Entity* cube2 = m_World->CreateEntity();
+	transform = cube2->AddComponent<Transform>();
+	transform->position = vec3(1.0f, 1.0f, 0.0f);
+	transform->scale = vec3(0.8f, 0.8f, 0.8f);
+	physicBody = cube2->AddComponent<PhysicBody>();
+	physicBody->velocity = vec3(3.0f, 2.0f, 0.2f);
+	//physicBody->angVelocity = vec3(5.0f, 10.0f, 3.0f);
+	sphereCollider = cube2->AddComponent<SphereCollider>();
+	sphereCollider->radius = 0.8f;
+	mesh = cube2->AddComponent<Mesh>();
+
+	result = mesh->model.Initialize(m_Direct3D->GetDevice(), m_Direct3D->GetDeviceContext(), modelFilename, textureFilename);
+	if (!result)
+	{
+		MessageBox(hwnd, L"Could not initialize the model object.", L"Error", MB_OK);
+		return false;
+	}
+
+	Entity* cube3 = m_World->CreateEntity();
+	transform = cube3->AddComponent<Transform>();
+	transform->position = vec3(3.0f, 4.0f, 0.0f);
+	transform->scale = vec3(0.2f, 0.2f, 0.2f);
+	physicBody = cube3->AddComponent<PhysicBody>();
+	physicBody->velocity = vec3(-1.0f, 0.0f, -0.5f);
+	//physicBody->angVelocity = vec3(5.0f, 10.0f, 3.0f);
+	sphereCollider = cube3->AddComponent<SphereCollider>();
+	sphereCollider->radius = 0.2f;
+	mesh = cube3->AddComponent<Mesh>();
 
 	result = mesh->model.Initialize(m_Direct3D->GetDevice(), m_Direct3D->GetDeviceContext(), modelFilename, textureFilename);
 	if (!result)
@@ -109,10 +167,11 @@ bool LevelManagerClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 
 
 	m_World->AddPhysicSystem<PhysicSystem>();
+	m_World->AddPhysicSystem<CollisionSystem>();
 	m_World->AddRenderSystem<RenderSystem>(m_Direct3D, m_Bitmap, m_ShaderManager, m_World->m_Camera, m_World->m_Light, m_World->m_PointLights, m_World->m_numPointLights);
 
 	//////////////////////////////////////////////////////////////////////////////////////////////
-	// WORLD CREATING //
+	// WORLD CREATING END //
 	//////////////////////////////////////////////////////////////////////////////////////////////
 
 

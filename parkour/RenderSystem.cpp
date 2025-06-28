@@ -16,6 +16,12 @@
 #include "bitmapclass.h"
 #include "shadermanagerclass.h"
 
+/////////////
+// GLOBALS //
+/////////////
+const float PI = 3.14159265358979f;
+
+
 class RenderSystem : public System
 {
 public:
@@ -123,9 +129,20 @@ public:
 				//// Turn the Z buffer back on now that all 2D rendering has completed.
 				//m_Direct3D->TurnZBufferOn();
 
-				rotateMatrix = XMMatrixRotationY(0.0f);  // Build the rotation matrix.
-				scaleMatrix = XMMatrixScaling(transform->scale.x, transform->scale.y, transform->scale.z);  // Build the scaling matrix.
-				translateMatrix = XMMatrixTranslation(transform->position.x, transform->position.y, transform->position.z);  // Build the translation matrix.
+				XMVECTOR axis;
+				float angle = transform->rotation.magnitude();
+				if (angle > 0)
+				{
+					axis = XMVectorSet(transform->rotation.x / angle, transform->rotation.y / angle, transform->rotation.z / angle, 0.0f);
+				}
+				else
+				{
+					axis = XMVectorSet(1.0f, 0.0f, 0.0f, 0.0f);
+				}
+
+				rotateMatrix = XMMatrixRotationAxis(axis, angle);
+				scaleMatrix = XMMatrixScaling(transform->scale.x, transform->scale.y, transform->scale.z);
+				translateMatrix = XMMatrixTranslation(transform->position.x, transform->position.y, transform->position.z);
 
 				// Multiply the scale, rotation, and translation matrices together to create the final world transformation matrix.
 				srMatrix = XMMatrixMultiply(scaleMatrix, rotateMatrix);

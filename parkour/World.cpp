@@ -31,33 +31,29 @@ bool World::Initialize(D3DClass* direct3D, BitmapClass* bitmap, ShaderManagerCla
 	m_Bitmap = bitmap;
 	m_ShaderManager = shadermanager;
 
+
 	m_Camera = new CameraClass;
 	if (!m_Camera)
 	{
 		return false;
 	}
 
-	// Set the initial position of the camera.
 	m_Camera->SetPosition(0.0f, 3.0f, -10.0f);
 	m_Camera->SetRotation(15.0f, 0.0f, 0.0f);
 
-	// Create and initialize the light object.
+
 	m_Light = new LightClass;
 
-	m_Light->SetDirection(1.0f, 0.0f, 1.0f);
-	m_Light->SetAmbientColor(0.15f, 0.15f, 0.15f, 1.0f);
-	m_Light->SetDiffuseColor(0.75f, 0.75f, 0.75f, 1.0f);
-	m_Light->SetSpecularColor(0.5f, 0.5f, 0.5f, 1.0f);
+	m_Light->SetDirection(1.0f, -1.0f, 0.5f);
+	m_Light->SetAmbientColor(0.1f, 0.1f, 0.1f, 1.0f);
+	m_Light->SetDiffuseColor(0.25f, 0.25f, 0.25f, 1.0f);
+	m_Light->SetSpecularColor(0.25f, 0.25f, 0.25f, 1.0f);
 	m_Light->SetSpecularPower(32.0f);
 
 
-	// Set the number of lights we will use.
 	m_numPointLights = 4;
-
-	// Create and initialize the light objects array.
 	m_PointLights = new PointLightClass[m_numPointLights];
 
-	// Manually set the color and position of each light.
 	m_PointLights[0].SetDiffuseColor(1.0f, 0.0f, 0.0f, 1.0f);  // Red
 	m_PointLights[0].SetPosition(-3.0f, 1.0f, 3.0f);
 

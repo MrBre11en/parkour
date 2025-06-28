@@ -131,7 +131,7 @@
     <ClCompile Include="modelclass.cpp">
       <Filter>Source Files\Render</Filter>
     </ClCompile>
-    <ClCompile Include="pointlight.cpp">
+    <ClCompile Include="pointlightclass.cpp">
       <Filter>Source Files\Render</Filter>
     </ClCompile>
     <ClCompile Include="textureclass.cpp">
@@ -227,8 +227,5 @@
     <FxCompile Include="ScreenPixelShader.hlsl">
       <Filter>Shaders\Screen</Filter>
     </FxCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="..\CMakeLists.txt" />
   </ItemGroup>
 </Project>

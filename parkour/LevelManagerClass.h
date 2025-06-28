@@ -26,6 +26,7 @@
 #include "Mesh.cpp"
 
 #include "PhysicSystem.cpp"
+#include "CollisionSystem.cpp"
 #include "RenderSystem.cpp"
 
 /////////////

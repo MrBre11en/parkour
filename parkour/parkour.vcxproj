@@ -170,7 +170,7 @@
     <ClCompile Include="PhysicBody.cpp" />
     <ClCompile Include="PhysicSystem.cpp" />
     <ClCompile Include="PlaneCollider.cpp" />
-    <ClCompile Include="pointlight.cpp" />
+    <ClCompile Include="pointlightclass.cpp" />
     <ClCompile Include="shaderclass.cpp" />
     <ClCompile Include="shadermanagerclass.cpp" />
     <ClCompile Include="SphereCollider.cpp" />
@@ -225,9 +225,6 @@
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Main</EntryPointName>
     </FxCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="..\CMakeLists.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

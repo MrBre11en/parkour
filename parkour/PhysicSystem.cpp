@@ -57,6 +57,7 @@ public:
 				}
 
 				transform->position += physicBody->velocity * deltaTime;
+				transform->rotation += physicBody->angVelocity * deltaTime;
 			}
 		}
 
