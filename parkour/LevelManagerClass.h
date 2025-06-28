@@ -9,7 +9,6 @@
 //////////////
 #include "d3dclass.h"
 #include "cameraclass.h"
-#include "modelclass.h"
 #include "lightclass.h"
 #include "pointlightclass.h"
 #include "bitmapclass.h"
@@ -27,7 +26,7 @@
 #include "Mesh.cpp"
 
 #include "PhysicSystem.cpp"
-#include "MeshRenderSystem.cpp"
+#include "RenderSystem.cpp"
 
 /////////////
 // GLOBALS //
@@ -54,16 +53,8 @@ public:
 	bool Frame();
 
 private:
-	bool Render(float);
-
-private:
 	World* m_World;
 	D3DClass* m_Direct3D;
-	CameraClass* m_Camera;
-	ModelClass* m_Model;
-	LightClass* m_Light;
-	PointLightClass* m_PointLights;
-	int m_numPointLights;
 	BitmapClass* m_Bitmap;
 	ShaderManagerClass* m_ShaderManager;
 };

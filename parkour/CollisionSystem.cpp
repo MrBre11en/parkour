@@ -1,5 +1,5 @@
-﻿#ifndef _PHYSIC_SYSTEM_
-#define _PHYSIC_SYSTEM_
+#ifndef _COLLISION_SYSTEM_
+#define _COLLISION_SYSTEM_
 
 //////////////
 // INCLUDES //
@@ -9,35 +9,23 @@
 #include "Transform.cpp"
 #include "PhysicBody.cpp"
 
-/////////////
-// GLOBALS //
-/////////////
-const float GravityAcceleration = 9.8f;
 
-
-class PhysicSystem: public System
+class CollisionSystem : public System
 {
 public:
-	PhysicSystem()
+	CollisionSystem()
 	{
-		gravityVector = 0;
 	}
 
 
 
 	void Initialize()
 	{
-		gravityVector = new vec3(0.0f, -GravityAcceleration, 0.0f);
 	}
 
 
 	void Shutdown()
 	{
-		if (gravityVector)
-		{
-			delete gravityVector;
-			gravityVector = 0;
-		}
 	}
 
 
@@ -51,20 +39,12 @@ public:
 			PhysicBody* physicBody = entity->GetComponent<PhysicBody>();
 			if (transform != nullptr && physicBody != nullptr)
 			{
-				if (physicBody->useGravity)
-				{
-					physicBody->velocity += *gravityVector * deltaTime;
-				}
-
-				transform->position += physicBody->velocity * deltaTime;
+				
 			}
 		}
 
 		return true;
 	}
-
-private:
-	vec3* gravityVector;
 };
 
 #endif

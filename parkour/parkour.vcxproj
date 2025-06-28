@@ -156,6 +156,7 @@
   <ItemGroup>
     <ClCompile Include="bitmapclass.cpp" />
     <ClCompile Include="cameraclass.cpp" />
+    <ClCompile Include="CollisionSystem.cpp" />
     <ClCompile Include="d3dclass.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="inputclass.cpp" />
@@ -163,7 +164,7 @@
     <ClCompile Include="lightclass.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mesh.cpp" />
-    <ClCompile Include="MeshRenderSystem.cpp" />
+    <ClCompile Include="RenderSystem.cpp" />
     <ClCompile Include="modelclass.cpp" />
     <ClCompile Include="parkour.cpp" />
     <ClCompile Include="PhysicBody.cpp" />

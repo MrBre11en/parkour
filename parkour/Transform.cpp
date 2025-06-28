@@ -9,7 +9,7 @@ struct Transform : Component
 {
 	vec3 position = vec3();
 	vec3 rotation = vec3();
-	vec3 scale = vec3();
+	vec3 scale = vec3(1.0f, 1.0f, 1.0f);
 };
 
 #endif

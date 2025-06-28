@@ -194,8 +194,11 @@
     <ClCompile Include="Mesh.cpp">
       <Filter>Source Files\ECS\Render</Filter>
     </ClCompile>
-    <ClCompile Include="MeshRenderSystem.cpp">
+    <ClCompile Include="RenderSystem.cpp">
       <Filter>Source Files\ECS\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionSystem.cpp">
+      <Filter>Source Files\ECS\Physic\Collision</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

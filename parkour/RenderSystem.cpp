@@ -1,5 +1,5 @@
-#ifndef _MESHRENDER_SYSTEM_
-#define _MESHRENDER_SYSTEM_
+#ifndef _RENDER_SYSTEM_
+#define _RENDER_SYSTEM_
 
 //////////////
 // INCLUDES //
@@ -9,15 +9,73 @@
 #include "Transform.cpp"
 #include "Mesh.cpp"
 
-class MeshRenderSystem : public System
+#include "d3dclass.h"
+#include "cameraclass.h"
+#include "lightclass.h"
+#include "pointlightclass.h"
+#include "bitmapclass.h"
+#include "shadermanagerclass.h"
+
+class RenderSystem : public System
 {
 public:
-	MeshRenderSystem()
+	RenderSystem(D3DClass* direct3d, BitmapClass* bitmap, ShaderManagerClass* shaderManager, CameraClass* camera, LightClass* light, PointLightClass* pointLights, int numPointLights)
+	{
+		m_Direct3D = direct3d;
+		m_Camera = camera;
+		m_Light = light;
+		m_PointLights = pointLights;
+		m_numPointLights = numPointLights;
+		m_Bitmap = bitmap;
+		m_ShaderManager = shaderManager;
+	}
+
+
+	void Initialize()
 	{
 	}
 
 
-	bool Update(vector<Entity*>& entities, float deltaTime) override
+	void Shutdown()
+	{
+		if (m_Direct3D)
+		{
+			m_Direct3D = 0;
+		}
+
+		if (m_Camera)
+		{
+			m_Camera = 0;
+		}
+
+		if (m_Light)
+		{
+			m_Light = 0;
+		}
+
+		if (m_PointLights)
+		{
+			m_PointLights = 0;
+		}
+
+		if (m_numPointLights)
+		{
+			m_numPointLights = 0;
+		}
+
+		if (m_Bitmap)
+		{
+			m_Bitmap = 0;
+		}
+
+		if (m_ShaderManager)
+		{
+			m_ShaderManager = 0;
+		}
+	}
+
+
+	bool Update(vector<Entity*>& entities, float deltaTime)
 	{
 		// Clear the buffers to begin the scene.
 		m_Direct3D->BeginScene(0.0f, 0.0f, 0.0f, 1.0f);
@@ -104,6 +162,15 @@ public:
 
 		return true;
 	}
+
+private:
+	D3DClass* m_Direct3D;
+	CameraClass* m_Camera;
+	LightClass* m_Light;
+	PointLightClass* m_PointLights;
+	int m_numPointLights;
+	BitmapClass* m_Bitmap;
+	ShaderManagerClass* m_ShaderManager;
 };
 
 #endif
