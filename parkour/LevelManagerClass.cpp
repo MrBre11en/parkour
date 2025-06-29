@@ -154,7 +154,7 @@ bool LevelManagerClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 	Entity* plane = m_World->CreateEntity();
 	transform = plane->AddComponent<Transform>();
 	transform->position = vec3(0.0f, -2.0f, 0.0f);
-	transform->scale = vec3(5.0f, 0.001f, 5.0f);
+	transform->scale = vec3(10.0f, 0.001f, 10.0f);
 	plane->AddComponent<PlaneCollider>();
 	mesh = plane->AddComponent<Mesh>();
 
