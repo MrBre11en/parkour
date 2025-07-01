@@ -1,4 +1,6 @@
 ﻿#include "LevelManagerClass.h"
+#include "random.h"
+using namespace random;
 
 LevelManagerClass::LevelManagerClass()
 {
@@ -78,77 +80,26 @@ bool LevelManagerClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 	PhysicBody* physicBody;
 	SphereCollider* sphereCollider;
 
-	Entity* cube = m_World->CreateEntity();
-	transform = cube->AddComponent<Transform>();
-	transform->position = vec3(0.0f, 3.0f, 0.0f);
-	physicBody = cube->AddComponent<PhysicBody>();
-	physicBody->velocity = vec3(1.0f, 3.0f, 2.0f);
-	//physicBody->angVelocity = vec3(5.0f, 10.0f, 3.0f);
-	cube->AddComponent<SphereCollider>();
-	mesh = cube->AddComponent<Mesh>();
-
 	strcpy_s(modelFilename, "Data/Models/Cube.txt");
 	strcpy_s(textureFilename, "Data/Textures/seafloor.tga");
 
-	result = mesh->model.Initialize(m_Direct3D->GetDevice(), m_Direct3D->GetDeviceContext(), modelFilename, textureFilename);
-	if (!result)
+	for (int i = 0; i < 100; i++)
 	{
-		MessageBox(hwnd, L"Could not initialize the model object.", L"Error", MB_OK);
-		return false;
-	}
+		Entity* cube = m_World->CreateEntity();
+		transform = cube->AddComponent<Transform>();
+		transform->position = vec3(0.0f, 3.0f, 0.0f);
+		physicBody = cube->AddComponent<PhysicBody>();
+		physicBody->velocity = vec3(GetRandom(-10, 10), GetRandom(0, 10), GetRandom(-10, 10));
+		//physicBody->angVelocity = vec3(5.0f, 10.0f, 3.0f);
+		cube->AddComponent<SphereCollider>();
+		mesh = cube->AddComponent<Mesh>();
 
-	Entity* cube1 = m_World->CreateEntity();
-	transform = cube1->AddComponent<Transform>();
-	transform->position = vec3(0.0f, 2.0f, 0.0f);
-	transform->scale = vec3(0.5f, 0.5f, 0.5f);
-	physicBody = cube1->AddComponent<PhysicBody>();
-	physicBody->velocity = vec3(-1.0f, 2.0f, 1.0f);
-	//physicBody->angVelocity = vec3(5.0f, 10.0f, 3.0f);
-	sphereCollider = cube1->AddComponent<SphereCollider>();
-	sphereCollider->radius = 0.5f;
-	mesh = cube1->AddComponent<Mesh>();
-
-	result = mesh->model.Initialize(m_Direct3D->GetDevice(), m_Direct3D->GetDeviceContext(), modelFilename, textureFilename);
-	if (!result)
-	{
-		MessageBox(hwnd, L"Could not initialize the model object.", L"Error", MB_OK);
-		return false;
-	}
-
-	Entity* cube2 = m_World->CreateEntity();
-	transform = cube2->AddComponent<Transform>();
-	transform->position = vec3(1.0f, 1.0f, 0.0f);
-	transform->scale = vec3(0.8f, 0.8f, 0.8f);
-	physicBody = cube2->AddComponent<PhysicBody>();
-	physicBody->velocity = vec3(3.0f, 2.0f, 0.2f);
-	//physicBody->angVelocity = vec3(5.0f, 10.0f, 3.0f);
-	sphereCollider = cube2->AddComponent<SphereCollider>();
-	sphereCollider->radius = 0.8f;
-	mesh = cube2->AddComponent<Mesh>();
-
-	result = mesh->model.Initialize(m_Direct3D->GetDevice(), m_Direct3D->GetDeviceContext(), modelFilename, textureFilename);
-	if (!result)
-	{
-		MessageBox(hwnd, L"Could not initialize the model object.", L"Error", MB_OK);
-		return false;
-	}
-
-	Entity* cube3 = m_World->CreateEntity();
-	transform = cube3->AddComponent<Transform>();
-	transform->position = vec3(3.0f, 4.0f, 0.0f);
-	transform->scale = vec3(0.2f, 0.2f, 0.2f);
-	physicBody = cube3->AddComponent<PhysicBody>();
-	physicBody->velocity = vec3(-1.0f, 0.0f, -0.5f);
-	//physicBody->angVelocity = vec3(5.0f, 10.0f, 3.0f);
-	sphereCollider = cube3->AddComponent<SphereCollider>();
-	sphereCollider->radius = 0.2f;
-	mesh = cube3->AddComponent<Mesh>();
-
-	result = mesh->model.Initialize(m_Direct3D->GetDevice(), m_Direct3D->GetDeviceContext(), modelFilename, textureFilename);
-	if (!result)
-	{
-		MessageBox(hwnd, L"Could not initialize the model object.", L"Error", MB_OK);
-		return false;
+		result = mesh->model.Initialize(m_Direct3D->GetDevice(), m_Direct3D->GetDeviceContext(), modelFilename, textureFilename);
+		if (!result)
+		{
+			MessageBox(hwnd, L"Could not initialize the model object.", L"Error", MB_OK);
+			return false;
+		}
 	}
 
 	Entity* plane = m_World->CreateEntity();

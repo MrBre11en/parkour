@@ -17,6 +17,18 @@ struct vec3
 		return sqrt(x * x + y * y + z * z);
 	}
 
+	inline vec3 normalized() {
+		float length = magnitude();
+		if (length > 0)
+		{
+			return *this / magnitude();
+		}
+		else
+		{
+			return vec3(0.0f, 1.0f, 0.0f);
+		}
+	}
+
 	float dot(const vec3& other) const {
 		return x * other.x + y * other.y + z * other.z;
 	}
@@ -42,6 +54,10 @@ struct vec3
 		y -= other.y;
 		z -= other.z;
 		return *this;
+	}
+
+	vec3 operator-() const {
+		return { -x, -y, -z };
 	}
 
 	vec3 operator*(float num) const {

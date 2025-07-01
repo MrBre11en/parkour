@@ -6,6 +6,7 @@
 
 struct PlaneCollider : Component
 {
+	float friction = 1.0f;
 	vec3 normal = vec3(0.0f, 1.0f, 0.0f);
 };
 

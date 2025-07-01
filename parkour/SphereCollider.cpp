@@ -5,6 +5,7 @@
 
 struct SphereCollider : Component
 {
+	float friction = 1.0f;
 	float radius = 1.0f;
 };
 
