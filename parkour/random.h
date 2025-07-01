@@ -2,6 +2,11 @@
 
 namespace random
 {
+    void RandSeed(int seed)
+    {
+        srand(seed);
+    }
+
     int GetRandom(int min = 1, int max = 0)
     {
         if (max > min)
